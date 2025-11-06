@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+    <ion-buttons>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="full-height">
+  <form [formGroup]="formularioLogin" (ngSubmit)="logar()">
+    <ion-card>
+      <ion-item lines="none">
+        <ion-icon name="person" slot="start" color="primary"></ion-icon>
+        <ion-label position="floating">Login</ion-label>
+        <ion-input formControlName="nome"  type="text" maxLength="50">
+          <!-- placeholder="Ex: Hamburguer" -->
+      </ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="lock-closed-outline" slot="start" color="primary"></ion-icon>
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input formControlName="senha" type="password" maxLength="50">
+          <!-- placeholder="Ex: Hamburguer" -->
+        </ion-input>
+      </ion-item>
+      <ion-button color="success" expand="full" type="submit" [disabled]="formularioLogin.invalid">
+        Fazer Login
+      </ion-button>
+    </ion-card>
+  </form>
+</ion-content>
+

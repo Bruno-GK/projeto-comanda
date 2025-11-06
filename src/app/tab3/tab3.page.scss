@@ -1,3 +1,18 @@
 ion-content ion-toolbar {
   --background: translucent;
 }
+
+.carrinho-vazio{
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--ion-color-medium);
+  ion-checkbox{
+    margin-right: 8px;
+  }
+}
+
+.resumo-item{
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+}

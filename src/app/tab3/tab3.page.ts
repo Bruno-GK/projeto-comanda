@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { PedidoService } from '../services/pedido.service';
+import { ItemCarrinho } from '../types/Item';
 
 @Component({
   selector: 'app-tab3',
@@ -6,7 +8,69 @@ import { Component } from '@angular/core';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+  pedido:ItemCarrinho[] = []
 
-  constructor() {}
+  ingredientesSelecionados
+  itemEditando:ItemCarrinho
+  quantidadeTotal:number
+  
+  constructor(
+    private pedidoService: PedidoService
+  ) { 
+    this.quantidadeTotal = 0
+  }
 
+  ionViewWillEnter() {
+    this.pedido = this.pedidoService.getPedido()
+    this.itemEditando= null
+    this.calcularQuantidadeTotal()
+  }
+
+  editarIngredientes(item:ItemCarrinho){
+    this.itemEditando = item;
+    this.ingredientesSelecionados ={}
+  
+    item.ingredientes.forEach((ingrediente)=>{
+      console.log(ingrediente)
+      this.ingredientesSelecionados[ingrediente] = 
+      !item.ingredientesRemovidos.includes(ingrediente)
+    })
+  }
+
+  salvarIngredientes(){
+    if(!this.itemEditando){
+      return;
+    }
+    
+    const ingredientesRemovidos =[]
+    this.itemEditando.ingredientes.forEach((ingrediente)=>{"c"
+      if(!this.ingredientesSelecionados[ingrediente]){
+        ingredientesRemovidos.push(ingrediente)
+      }
+    })
+    
+    this.itemEditando.ingredientesRemovidos = ingredientesRemovidos
+
+    this.itemEditando = null
+    this.ingredientesSelecionados = []
+
+    console.log("pedido a ser editado", this.pedido)
+  }
+
+
+  cancelarEdicao(){
+    this.itemEditando = null
+    this.ingredientesSelecionados = []
+  }
+
+
+  removerItem(idASerRemovido:number){
+    this.pedidoService.removerItem(idASerRemovido)
+    this.pedido = this.pedidoService.getPedido()
+    this.calcularQuantidadeTotal()
+  }
+
+  calcularQuantidadeTotal(){
+    this.quantidadeTotal = this.pedido.length
+  }
 }
